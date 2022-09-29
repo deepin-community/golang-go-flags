@@ -1,0 +1,10 @@
+#!/usr/bin/make -f
+# -*- makefile -*-
+
+export DH_OPTIONS
+
+%:
+	dh $@ --buildsystem=golang --with=golang
+
+override_dh_auto_install:
+	dh_auto_install -O--buildsystem=golang -- --no-binaries

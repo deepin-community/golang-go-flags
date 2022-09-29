@@ -1,0 +1,42 @@
+Source: golang-go-flags
+Maintainer: Debian Go Packaging Team <team+pkg-go@tracker.debian.org>
+Uploaders: Sergio Schvezov <sergio.schvezov@canonical.com>,
+           Steve Langasek <vorlon@debian.org>,
+           Michael Hudson-Doyle <michael.hudson@ubuntu.com>,
+           Anthony Fok <foka@debian.org>,
+           Jelmer Vernooĳ <jelmer@debian.org>
+Section: golang
+Testsuite: autopkgtest-pkg-go
+Priority: optional
+Build-Depends: debhelper-compat (= 13),
+               dh-golang,
+               golang-any
+Standards-Version: 4.6.0
+Vcs-Browser: https://salsa.debian.org/go-team/packages/golang-go-flags
+Vcs-Git: https://salsa.debian.org/go-team/packages/golang-go-flags.git
+Homepage: https://github.com/jessevdk/go-flags
+Rules-Requires-Root: no
+XS-Go-Import-Path: github.com/jessevdk/go-flags
+
+Package: golang-github-jessevdk-go-flags-dev
+Architecture: all
+Multi-Arch: foreign
+Depends: ${misc:Depends}
+Replaces: golang-go-flags-dev (<< 1.4.0-3~)
+Breaks: golang-go-flags-dev (<< 1.4.0-3~)
+Provides: golang-go-flags-dev
+Description: Go library for parsing command line arguments
+ Package flags provides an extensive command line option parser.
+ .
+ The flags package is similar in functionality to the go builtin flag
+ package but provides more options and uses reflection to provide a
+ convenient and succinct way of specifying command line options.
+
+Package: golang-go-flags-dev
+Section: oldlibs
+Architecture: all
+Depends: golang-github-jessevdk-go-flags-dev,
+         ${misc:Depends}
+Description: Transitional package for golang-github-jessevdk-go-flags-dev
+ This is a transitional package to ease upgrades to the
+ golang-github-jessevdk-go-flags-dev package.  It can safely be removed.

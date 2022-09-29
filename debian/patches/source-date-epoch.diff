@@ -1,0 +1,62 @@
+Origin: commit: 12a6e76
+Author: Marina Moore <mmoore32@calpoly.edu>
+Last-Update: 2018-10-29
+Description: Add support for SOURCE_DATE_EPOCH
+X-Git-Commit: 12a6e767cad82e8b4f7ca7b1215db541580797fe
+
+=== modified file 'man.go'
+--- old/man.go	2016-12-14 02:12:11 +0000
++++ new/man.go	2018-10-29 21:21:27 +0000
+@@ -3,7 +3,9 @@
+ import (
+ 	"fmt"
+ 	"io"
++	"os"
+ 	"runtime"
++	"strconv"
+ 	"strings"
+ 	"time"
+ )
+@@ -175,6 +177,14 @@
+ // writer.
+ func (p *Parser) WriteManPage(wr io.Writer) {
+ 	t := time.Now()
++	source_date_epoch := os.Getenv("SOURCE_DATE_EPOCH")
++	if source_date_epoch != "" {
++		sde, err := strconv.ParseInt(source_date_epoch, 10, 64)
++		if err != nil {
++			panic(fmt.Sprintf("Invalid SOURCE_DATE_EPOCH: %s", err))
++		}
++		t = time.Unix(sde, 0)
++	}
+ 
+ 	fmt.Fprintf(wr, ".TH %s 1 \"%s\"\n", manQuote(p.Name), t.Format("2 January 2006"))
+ 	fmt.Fprintln(wr, ".SH NAME")
+
+=== modified file 'help_test.go'
+--- old/help_test.go	2017-08-04 02:17:49 +0000
++++ new/help_test.go	2020-04-05 17:34:27 +0000
+@@ -6,6 +6,7 @@
+ 	"fmt"
+ 	"os"
+ 	"runtime"
++	"strconv"
+ 	"strings"
+ 	"testing"
+ 	"time"
+@@ -204,6 +205,14 @@
+ 	got := buf.String()
+ 
+ 	tt := time.Now()
++	source_date_epoch := os.Getenv("SOURCE_DATE_EPOCH")
++	if source_date_epoch != "" {
++		sde, err := strconv.ParseInt(source_date_epoch, 10, 64)
++		if err != nil {
++			panic(fmt.Sprintf("Invalid SOURCE_DATE_EPOCH: %s", err))
++		}
++		tt = time.Unix(sde, 0)
++	}
+ 
+ 	var envDefaultName string
+ 
+
